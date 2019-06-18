@@ -1,7 +1,6 @@
 package nl.fhict.s3.websocketclient.endpoint;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,7 +16,6 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 import nl.fhict.s3.websocketshared.BuildingMaterial;
-import nl.fhict.s3.websocketshared.Greeting;
 import nl.fhict.s3.websocketshared.MessageOperation;
 import nl.fhict.s3.websocketshared.WebsocketMessage;
 import org.slf4j.Logger;
@@ -28,7 +26,7 @@ public class ClientEndpoint extends Observable {
 
     private static final Logger log = LoggerFactory.getLogger(ClientEndpoint.class);
     private static ClientEndpoint instance = null;
-    private static final String URI = "ws://localhost:8095/greeter/"; // TODO Config file
+    private static final String URI = "ws://localhost:8095/corsoAuction/";
     private Session session;
     private Gson gson;
     private boolean isRunning = false;
@@ -110,17 +108,17 @@ public class ClientEndpoint extends Observable {
     }
 
     private void handleMessageFromServer(String message){
-        WebsocketMessage websocketMessage = gson.fromJson(message, WebsocketMessage.class);
-        String content = websocketMessage.getContent();
+        WebsocketMessage wsMessage = gson.fromJson(message, WebsocketMessage.class);
+        String content = wsMessage.getContent();
         setChanged();
         notifyObservers(content);
     }
 
     public void addBuildingMaterial(BuildingMaterial buildingMaterial){
-        WebsocketMessage message = new WebsocketMessage();
-        message.setOperation(MessageOperation.ADD_BUILDING_MATERIAL);
+        WebsocketMessage wsMessage = new WebsocketMessage();
+        wsMessage.setOperation(MessageOperation.ADD_BUILDING_MATERIAL);
         String json = new Gson().toJson(buildingMaterial);
-        message.setContent(json);
-        sendMessage(message);
+        wsMessage.setContent(json);
+        sendMessage(wsMessage);
     }
 }

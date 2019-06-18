@@ -57,6 +57,6 @@ public class BuildingMaterial implements Buyable {
 
     @Override
     public String toString(){
-        return this.name + " €" + price + " " + amount + " stuk(s)";
+        return this.name + " €" + price + " " + amount + " stuk(s)" + " - Door: " + seller.getName();
     }
 }

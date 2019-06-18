@@ -23,10 +23,10 @@ public class Auction implements Buyable {
     }
 
     public boolean placeBid(Bid bid){
-        Double amount = bid.getAmount();
+        Double bidAmount = bid.getAmount();
 
-        if(amount > highestBid && ended == false){
-            highestBid = amount;
+        if(bidAmount > highestBid && ended == false){
+            highestBid = bidAmount;
             return true;
         } else{
             return false;

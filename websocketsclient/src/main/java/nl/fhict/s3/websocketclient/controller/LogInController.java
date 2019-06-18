@@ -43,9 +43,6 @@ public class LogInController {
         }
     }
 
-    public void btnRegisterClicked(ActionEvent actionEvent) {
-    }
-
     private void navigateToPage(String page) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/" + page));

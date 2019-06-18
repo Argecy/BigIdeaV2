@@ -42,9 +42,10 @@ public class UserStore {
     }
 
     private void createUser() {
-        User franc = new User("Franc", "Wachtwoord");
-        User buurtschap = new User("Kerkakkers", "Wachtwoord");
-        User bloemenkweker = new User("Hennie", "Wachtwoord");
+        String password = "Wachtwoord";
+        User franc = new User("Franc", password);
+        User buurtschap = new User("Kerkakkers", password);
+        User bloemenkweker = new User("Hennie", password);
         addUser(franc);
         addUser(buurtschap);
         addUser(bloemenkweker);

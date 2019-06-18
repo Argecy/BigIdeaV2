@@ -18,7 +18,7 @@ import nl.fhict.s3.websocketshared.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ServerEndpoint(value = "/greeter/")
+@ServerEndpoint(value = "/corsoAuction/")
 public class AuctionEndpoint {
 
     private static final Logger log = LoggerFactory.getLogger(AuctionEndpoint.class);
@@ -60,7 +60,7 @@ public class AuctionEndpoint {
                 s.getBasicRemote().sendText(message);
                 log.info("\t\t >> Client associated with server side session ID: " + s.getId());
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info(e.getMessage());
             }
         }
         log.info("[End of Broadcast]");
@@ -73,13 +73,13 @@ public class AuctionEndpoint {
             session.getBasicRemote().sendText(message);
             log.info("\t\t >> Client associated with server side session ID: " + session.getId());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info(e.getMessage());
         }
         log.info("[End of Broadcast]");
     }
 
     private void handleMessageFromClient(String jsonmessage, Session client) {
-        Gson gson = new Gson();
+        gson = new Gson();
         WebsocketMessage message = null;
         try {
             message = gson.fromJson(jsonmessage, WebsocketMessage.class);
@@ -95,12 +95,16 @@ public class AuctionEndpoint {
                 switch (operation) {
                     case START_AUCTION:
                         startAuction(message.getContent());
+                        break;
                     case PLACE_BID:
                         sendMessage("Succes", client);
+                        break;
                     case BUY_BULDING_MATERIAL:
                         buyBuildingMaterial(message.getContent());
+                        break;
                     case ADD_BUILDING_MATERIAL:
                         addBuildingMaterial(message.getContent());
+                        break;
                     default:
                         break;
                 }

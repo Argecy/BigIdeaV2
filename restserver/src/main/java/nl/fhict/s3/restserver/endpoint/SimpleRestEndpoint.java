@@ -1,19 +1,14 @@
 package nl.fhict.s3.restserver.endpoint;
 
 import com.google.gson.Gson;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
 import nl.fhict.s3.restserver.data.UserStore;
 import nl.fhict.s3.restshared.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/User")
 public class SimpleRestEndpoint {
@@ -29,7 +24,7 @@ public class SimpleRestEndpoint {
     @Path("/{user}")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Response getGreeting(@PathParam("user") String user) {
+    public Response getUser(@PathParam("user") String user) {
         log.info("GET user called for key: {}", user);
         User myResponse = userStore.getUser(user);
 
@@ -39,7 +34,7 @@ public class SimpleRestEndpoint {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Response getAllGreetings() {
+    public Response getAllUsers() {
         log.info("GET all called");
 
         return Response.status(200).entity(gson.toJson(userStore.getAll())).build();
@@ -49,7 +44,7 @@ public class SimpleRestEndpoint {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addGreeting(User user) {
+    public Response addUser(User user) {
         log.info("POST add called for key: {}", user.getUsername());
 
         userStore.addUser(user);

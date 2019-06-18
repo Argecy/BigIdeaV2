@@ -2,5 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/websocketshared/src/main/java/nl/fhict/s3/websocketshared/bigideas3" vcs="Git" />
   </component>
 </project>

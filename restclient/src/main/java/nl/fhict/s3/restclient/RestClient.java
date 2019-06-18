@@ -1,6 +1,5 @@
 package nl.fhict.s3.restclient;
 
-import nl.fhict.s3.restshared.Greeting;
 import nl.fhict.s3.restshared.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

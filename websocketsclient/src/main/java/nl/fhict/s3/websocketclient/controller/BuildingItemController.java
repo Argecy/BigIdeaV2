@@ -72,8 +72,9 @@ public class BuildingItemController implements Observer {
                 String content = arg.toString();
                 Gson gson = new Gson();
                 List<BuildingMaterial> bm = gson.fromJson(content, new TypeToken<List<BuildingMaterial>>(){}.getType());
-                lvActiveOffers.getItems().clear();
-                lvActiveOffers.getItems().setAll(bm);
+                System.out.println(bm.get(0).toString());
+                //lvActiveOffers.getItems().clear();
+                //lvActiveOffers.getItems().setAll(bm);
             }
         });
     }

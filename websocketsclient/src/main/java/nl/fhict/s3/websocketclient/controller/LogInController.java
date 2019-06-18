@@ -14,6 +14,9 @@ public class LogInController {
     @FXML
     private Button btnLogIn;
 
+    public void initialize() {
+    }
+
     public void btnLogInClicked(ActionEvent actionEvent) {
     }
 

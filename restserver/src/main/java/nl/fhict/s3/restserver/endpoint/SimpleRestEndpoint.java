@@ -9,28 +9,29 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import nl.fhict.s3.restserver.data.GreetingStore;
-import nl.fhict.s3.restshared.Greeting;
+
+import nl.fhict.s3.restserver.data.UserStore;
+import nl.fhict.s3.restshared.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Path("/greeting")
+@Path("/User")
 public class SimpleRestEndpoint {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleRestEndpoint.class);
-    private static GreetingStore greetingStore = GreetingStore.getInstance();
+    private static UserStore userStore = UserStore.getInstance();
     private final Gson gson;
 
     public SimpleRestEndpoint() {
         gson = new Gson();
     }
 
-    @Path("/{greeting}")
+    @Path("/{user}")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Response getGreeting(@PathParam("greeting") String greeting) {
-        log.info("GET greeting called for key: {}", greeting);
-        Greeting myResponse = greetingStore.getGreeting(greeting);
+    public Response getGreeting(@PathParam("user") String user) {
+        log.info("GET user called for key: {}", user);
+        User myResponse = userStore.getUser(user);
 
         return Response.status(200).entity(gson.toJson(myResponse)).build();
     }
@@ -41,18 +42,35 @@ public class SimpleRestEndpoint {
     public Response getAllGreetings() {
         log.info("GET all called");
 
-        return Response.status(200).entity(gson.toJson(greetingStore.getAll())).build();
+        return Response.status(200).entity(gson.toJson(userStore.getAll())).build();
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addGreeting(Greeting greeting) {
-        log.info("POST add called for key: {}", greeting.getName());
+    public Response addGreeting(User user) {
+        log.info("POST add called for key: {}", user.getUsername());
 
-        greetingStore.addGreeting(greeting);
+        userStore.addUser(user);
 
-        return Response.status(200).entity(gson.toJson(greeting)).build();
+        return Response.status(200).entity(gson.toJson(user)).build();
+    }
+
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response CheckUser(User user) {
+        log.info("POST login called for key: {}", user.getUsername());
+        User checkeduser = userStore.getUser(user.getUsername());
+        if (user.getUsername().equals(checkeduser.getUsername()) && user.getPassword().equals(checkeduser.getPassword())) {
+
+            log.info("User succesfully authtenticated: {}", user.getUsername());
+            return Response.status(200).entity(gson.toJson(checkeduser)).build();
+        }else {
+            log.info("user does not exist: {}", user.getUsername());
+            return Response.status(401).build();
+        }
     }
 }

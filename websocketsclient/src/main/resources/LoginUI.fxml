@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.PasswordField?>
-
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.fhict.s3.websocketclient.controller.LogInController">
    <children>
       <Button fx:id="btnLogIn" layoutX="228.0" layoutY="260.0" mnemonicParsing="false" onAction="#btnLogInClicked" text="Log In" />
       <Button layoutX="307.0" layoutY="260.0" mnemonicParsing="false" onAction="#btnRegisterClicked" text="Register" />
-      <TextField layoutX="207.0" layoutY="157.0" promptText="Username" />
-      <PasswordField layoutX="207.0" layoutY="200.0" promptText="Password" />
+      <TextField fx:id="tfUserName" layoutX="207.0" layoutY="157.0" promptText="Username" />
+      <PasswordField fx:id="tfPassword" layoutX="207.0" layoutY="200.0" promptText="Password" />
    </children>
 </AnchorPane>

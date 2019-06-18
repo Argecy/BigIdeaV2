@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Observable;
-import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -20,25 +19,25 @@ import nl.fhict.s3.websocketshared.Greeting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ClientEndpoint
-public class GreeterClientEndpoint extends Observable {
+@javax.websocket.ClientEndpoint
+public class ClientEndpoint extends Observable {
 
-    private static final Logger log = LoggerFactory.getLogger(GreeterClientEndpoint.class);
-    private static GreeterClientEndpoint instance = null;
+    private static final Logger log = LoggerFactory.getLogger(ClientEndpoint.class);
+    private static ClientEndpoint instance = null;
     private static final String URI = "ws://localhost:8095/greeter/"; // TODO Config file
     private Session session;
     private Gson gson;
     private boolean isRunning = false;
     private String message;
 
-    private GreeterClientEndpoint() {
+    private ClientEndpoint() {
         gson = new Gson();
     }
 
-    public static GreeterClientEndpoint getInstance() {
+    public static ClientEndpoint getInstance() {
         if (instance == null) {
-            instance = new GreeterClientEndpoint();
-            log.info("GreeterClientEndpoint singleton instantiated");
+            instance = new ClientEndpoint();
+            log.info("ClientEndpoint singleton instantiated");
         }
         return instance;
     }

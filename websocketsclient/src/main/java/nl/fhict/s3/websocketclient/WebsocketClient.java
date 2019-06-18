@@ -2,7 +2,8 @@ package nl.fhict.s3.websocketclient;
 
 import java.util.Observable;
 import java.util.Observer;
-import nl.fhict.s3.websocketclient.endpoint.GreeterClientEndpoint;
+
+import nl.fhict.s3.websocketclient.endpoint.ClientEndpoint;
 import nl.fhict.s3.websocketshared.Greeting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +14,14 @@ public class WebsocketClient implements Observer {
 
     void start() {
         try {
-            GreeterClientEndpoint greeterClientEndpoint = GreeterClientEndpoint.getInstance();
-            greeterClientEndpoint.addObserver(this);
-            greeterClientEndpoint.start();
+            ClientEndpoint clientEndpoint = ClientEndpoint.getInstance();
+            clientEndpoint.addObserver(this);
+            clientEndpoint.start();
             log.info("Websocket client started");
 
-            greeterClientEndpoint.sendMessageToServer(new Greeting("Whoohoo", 50));
+            clientEndpoint.sendMessageToServer(new Greeting("Whoohoo", 50));
 
-            greeterClientEndpoint.stop();
+            clientEndpoint.stop();
             log.info("Websocket client stopped");
         } catch (Exception ex) {
             log.error("Client couldn't start.");

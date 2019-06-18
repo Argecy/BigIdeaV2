@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import nl.fhict.s3.restclient.UserRestClient;
 import nl.fhict.s3.restshared.User;
+import nl.fhict.s3.websocketclient.LocalData;
 
 import java.io.IOException;
 
@@ -31,6 +32,7 @@ public class LogInController {
     public void btnLogInClicked(ActionEvent actionEvent) {
         User user = new User(tfUserName.getText(), tfPassword.getText());
         if(userRestclient.authenticateUser(user) != null){
+            LocalData.getInstance().setUser(new nl.fhict.s3.websocketshared.User(user.getUsername()));
             navigateToPage("BuildingItemUI.fxml");
         }
         else {

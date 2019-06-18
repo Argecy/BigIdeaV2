@@ -99,6 +99,8 @@ public class AuctionEndpoint {
                         sendMessage("Succes", client);
                     case BUY_BULDING_MATERIAL:
                         buyBuildingMaterial(message.getContent());
+                    case ADD_BUILDING_MATERIAL:
+                        addBuildingMaterial(message.getContent());
                     default:
                         break;
                 }
@@ -127,6 +129,13 @@ public class AuctionEndpoint {
 
         activeOffers.clear();
         activeOffers.addAll(materialList);
+        createMessage(activeOffers);
+    }
+
+    private void addBuildingMaterial(String json){
+        gson = new Gson();
+        BuildingMaterial buildingMaterial = gson.fromJson(json, BuildingMaterial.class);
+        activeOffers.add(buildingMaterial);
         createMessage(activeOffers);
     }
 

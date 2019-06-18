@@ -31,7 +31,7 @@ public class LogInController {
     public void btnLogInClicked(ActionEvent actionEvent) {
         User user = new User(tfUserName.getText(), tfPassword.getText());
         if(userRestclient.authenticateUser(user) != null){
-            System.out.println("Succes");
+            navigateToPage("BuildingItemUI.fxml");
         }
         else {
             Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -15,7 +15,11 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+
+import nl.fhict.s3.websocketshared.BuildingMaterial;
 import nl.fhict.s3.websocketshared.Greeting;
+import nl.fhict.s3.websocketshared.MessageOperation;
+import nl.fhict.s3.websocketshared.WebsocketMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +70,7 @@ public class ClientEndpoint extends Observable {
     public void onWebSocketText(String message, Session session) {
         this.message = message;
         log.info("Client message received {}", message);
-        processMessage(message);
+        handleMessageFromServer(message);
     }
 
     @OnError
@@ -78,12 +82,6 @@ public class ClientEndpoint extends Observable {
     public void onWebSocketClose(CloseReason reason) {
         log.info("Client close session {} for reason {} ", session.getRequestURI(), reason);
         session = null;
-    }
-
-    public void sendMessageToServer(Greeting message) {
-        String jsonMessage = gson.toJson(message);
-        log.info("Sending message to server: {}", message);
-        session.getAsyncRemote().sendText(jsonMessage);
     }
 
     private void startClient() {
@@ -107,28 +105,22 @@ public class ClientEndpoint extends Observable {
         }
     }
 
-    private void processMessage(String jsonMessage) {
-        Greeting greeting;
-        log.info("Processing message: {}", jsonMessage);
+    private void sendMessage(WebsocketMessage message){
+        session.getAsyncRemote().sendText(gson.toJson(message));
+    }
 
-        try {
-            greeting = gson.fromJson(jsonMessage, Greeting.class);
-            log.info("Message processed: {}", greeting);
-        } catch (JsonSyntaxException ex) {
-            log.error("Can't process message: {}", ex.getMessage());
-            return;
-        }
+    private void handleMessageFromServer(String message){
+        WebsocketMessage websocketMessage = gson.fromJson(message, WebsocketMessage.class);
+        String content = websocketMessage.getContent();
+        setChanged();
+        notifyObservers(content);
+    }
 
-        String content = greeting.getName();
-        if (content == null || "".equals(content)) {
-            log.error("Message is empty");
-            return;
-        }
-
-        Greeting commMessage = new Greeting();
-        commMessage.setName(content);
-
-        this.setChanged();
-        this.notifyObservers(commMessage);
+    public void addBuildingMaterial(BuildingMaterial buildingMaterial){
+        WebsocketMessage message = new WebsocketMessage();
+        message.setOperation(MessageOperation.ADD_BUILDING_MATERIAL);
+        String json = new Gson().toJson(buildingMaterial);
+        message.setContent(json);
+        sendMessage(message);
     }
 }

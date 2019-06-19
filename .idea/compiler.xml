@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="client" />
         <module name="websocketsclient" />
         <module name="restserver" />
-        <module name="websocketserver" />
         <module name="restclient" />
         <module name="websocketshared" />
         <module name="server" />
-        <module name="client" />
+        <module name="websocketserver" />
         <module name="restshared" />
       </profile>
     </annotationProcessing>
